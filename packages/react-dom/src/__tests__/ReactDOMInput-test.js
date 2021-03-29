@@ -52,7 +52,7 @@ describe('ReactDOMInput', () => {
 
   it('should be a controlled input checkbox with onChange', () => {
     const log = [];
-    const {createRef, useCallback, useState} = React;
+    const {useCallback, useState} = React;
     const Example = () => {
       const [checkboxState, setCheckboxState] = useState(false);
       const handleInput = useCallback(event => {
