@@ -50,6 +50,44 @@ describe('ReactDOMInput', () => {
     document.body.removeChild(container);
   });
 
+  it('should be a controlled input checkbox with onChange', () => {
+    const log = [];
+    const {createRef, useCallback, useState} = React;
+    const Example = () => {
+      const [checkboxState, setCheckboxState] = useState(false);
+      const handleInput = useCallback(event => {
+        setCheckboxState(event.target.checked);
+        log.push('checkbox changed');
+      });
+
+      return (
+        <>
+          <input
+            type="checkbox"
+            checked={checkboxState}
+            onClick={() => console.log("controlled clickHandle")}
+            onChange={handleInput}
+          />
+        </>
+      );
+    };
+
+    ReactDOM.render(<Example />, container);
+    const node = container.firstChild;
+    node.click();
+    expect(node.checked).toBe(true);
+    expect(log).toEqual(unindent`
+      checkbox changed
+    `);
+  });
+
+  function unindent(str) {
+    return str[0]
+      .split('\n')
+      .map(s => s.trim())
+      .filter(s => s !== '');
+  }
+
   it('should warn for controlled value of 0 with missing onChange', () => {
     expect(() => {
       ReactDOM.render(<input type="text" value={0} />, container);
