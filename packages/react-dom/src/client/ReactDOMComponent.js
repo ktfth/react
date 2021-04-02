@@ -13,6 +13,7 @@ import {
 } from '../events/EventRegistry';
 
 import {canUseDOM} from 'shared/ExecutionEnvironment';
+import hasOwnProperty from 'shared/hasOwnProperty';
 
 import {
   getValueForAttribute,
@@ -53,7 +54,7 @@ import {
   createDangerousStringForStyles,
   setValueForStyles,
   validateShorthandPropertyCollisionInDev,
-} from '../shared/CSSPropertyOperations';
+} from './CSSPropertyOperations';
 import {HTML_NAMESPACE, getIntrinsicNamespace} from '../shared/DOMNamespaces';
 import {
   getPropertyInfo,
@@ -443,7 +444,7 @@ export function createElement(
         !isCustomComponentTag &&
         Object.prototype.toString.call(domElement) ===
           '[object HTMLUnknownElement]' &&
-        !Object.prototype.hasOwnProperty.call(warnedUnknownTags, type)
+        !hasOwnProperty.call(warnedUnknownTags, type)
       ) {
         warnedUnknownTags[type] = true;
         console.error(

@@ -13,6 +13,8 @@ import type {Request, ReactModel} from 'react-server/src/ReactFlightServer';
 
 import JSResourceReference from 'JSResourceReference';
 
+import hasOwnProperty from 'shared/hasOwnProperty';
+
 export type ModuleReference<T> = JSResourceReference<T>;
 
 import type {
@@ -26,6 +28,7 @@ import {resolveModelToJSON} from 'react-server/src/ReactFlightServer';
 import {
   emitRow,
   resolveModuleMetaData as resolveModuleMetaDataImpl,
+  close,
 } from 'ReactFlightDOMRelayServerIntegration';
 
 export type {
@@ -70,8 +73,6 @@ export function processErrorChunk(
     },
   ];
 }
-
-const hasOwnProperty = Object.prototype.hasOwnProperty;
 
 function convertModelToJSON(
   request: Request,
@@ -146,4 +147,8 @@ export function writeChunk(destination: Destination, chunk: Chunk): boolean {
 
 export function completeWriting(destination: Destination) {}
 
-export {close} from 'ReactFlightDOMRelayServerIntegration';
+export {close};
+
+export function closeWithError(destination: Destination, error: mixed): void {
+  close(destination);
+}
